@@ -1,10 +1,5 @@
-import requests
 import subprocess
 
-
-# def get_rtt(url):
-#     response = requests.get(url)
-#     return response.elapsed.total_seconds()*1000.0
 
 def get_rtt_os(url):
     result = subprocess.run(['ping', '-c', '1', url], stdout=subprocess.PIPE)
@@ -21,7 +16,7 @@ for hostname in hostnames:
     stats = get_rtt_os(hostname) # get rtt stats
     if stats:
         avg_rtt = stats[3].split('=')[1].split('/')[1] # get average rtt
-        f.write(f"{hostname} - {avg_rtt}  ms\n")
+        f.write(f"{hostname}, {avg_rtt}  ms\n")
     else:
         f.write(f"unable to ping host {hostname}")
 
