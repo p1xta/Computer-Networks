@@ -7,17 +7,16 @@ def get_rtt_os(url):
         return None
     return str(result.stdout).split(',')
 
-f = open("pings.csv", "w")
 hostnames = ["google.com", "wikipedia.org", "amazon.com", "microsoft.com", \
              "github.com", "mail.ru", "yandex.ru", "vk.com", "youtube.com", "roblox.com"]
 
-for hostname in hostnames:
 
-    stats = get_rtt_os(hostname) # get rtt stats
-    if stats:
-        avg_rtt = stats[3].split('=')[1].split('/')[1] # get average rtt
-        f.write(f"{hostname}, {avg_rtt}  ms\n")
-    else:
-        f.write(f"unable to ping host {hostname}")
+with open("pings.csv", "w") as f:
+    for hostname in hostnames:
 
-f.close()
+        stats = get_rtt_os(hostname) 
+        if stats:
+            avg_rtt = stats[3].split('=')[1].split('/')[1]
+            f.write(f"{hostname}, {avg_rtt}  ms\n")
+        else:
+            f.write(f"unable to ping host {hostname}\n")
