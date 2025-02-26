@@ -1,16 +1,15 @@
 import time
 import pandas as pd
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 
+
 driver = webdriver.Chrome()
 
 def parse_page():
+    time.sleep(3)
     products = driver.find_elements(By.CLASS_NAME, 'ListingItem__description')
     data = []
 
@@ -27,8 +26,7 @@ def parse_page():
         try:
             price = product.find_element(By.CLASS_NAME, 'ListingItemPrice__content').text
         except:
-            price_element = WebDriverWait(driver, 2).until(
-                EC.presence_of_element_located((By.CSS_SELECTOR, ".ListingItemPrice__link span")))
+            price_element = driver.find_element(By.CSS_SELECTOR, ".ListingItemPrice__link span")
             price = price_element.text
         if (name and year and kmage and summary):
             data.append({
@@ -47,12 +45,13 @@ def parse_page():
     return data
 
 def switch_to_next_page():
-    try:
-        # next_button = WebDriverWait(driver, 10).until(driver.find_element(By.CLASS_NAME, "ListingPagination__next"))
+    try: 
+        # next_button = WebDriverWait(driver, 10).until(EC.presence_of_element_located(By.CLASS_NAME, ".ListingPagination__next"))
         next_button = driver.find_element(By.CLASS_NAME, 'ListingPagination__next')
         # ActionChains(driver).scroll_to_element(next_button).perform()
         next_button.click()
-        time.sleep(3)
+        # time.sleep(3)
+        
         return True
     except:
         print("No more pages")
