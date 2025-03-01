@@ -45,12 +45,9 @@ def parse_page():
     return data
 
 def switch_to_next_page():
-    try: 
-        # next_button = WebDriverWait(driver, 10).until(EC.presence_of_element_located(By.CLASS_NAME, ".ListingPagination__next"))
+    try:
         next_button = driver.find_element(By.CLASS_NAME, 'ListingPagination__next')
-        # ActionChains(driver).scroll_to_element(next_button).perform()
         next_button.click()
-        # time.sleep(3)
         
         return True
     except:
