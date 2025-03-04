@@ -1,9 +1,8 @@
 import time
+
 import pandas as pd
 from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support import expected_conditions as EC
 
 
 driver = webdriver.Chrome()
@@ -28,7 +27,7 @@ def parse_page():
         except:
             price_element = driver.find_element(By.CSS_SELECTOR, ".ListingItemPrice__link span")
             price = price_element.text
-        if (name and year and kmage and summary):
+        if name and year and kmage and summary:
             data.append({
                 'Name' : name,
                 'Price' : price,
@@ -54,19 +53,16 @@ def switch_to_next_page():
         print("No more pages")
         return False
 
-page_number = 0
-all_data = []
-
-
-
 URL = 'https://auto.ru/novosibirsk/cars/toyota/all/'
 driver.get(URL)
 
 time.sleep(3)
-answ = 'Y'
+page_number = 0
+all_data = []
+answer = 'Y'
 
 while True:
-    if (answ == 'Y'):
+    if (answer == 'Y'):
         print(f"Parsing page {page_number+1}...")
         page_data = parse_page()
         all_data.extend(page_data)
@@ -78,7 +74,7 @@ while True:
         break
     if page_number % 5 == 0:
         print("Do you want to keep parsing?(Y/n)")
-        answ = input()
+        answer = input()
 
 df = pd.DataFrame(all_data)
 df.to_csv('parsed_site.csv', index=False)
