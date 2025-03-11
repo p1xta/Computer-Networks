@@ -1,20 +1,5 @@
-from pydantic import BaseModel
-
 import psycopg2
 
-
-class Car(BaseModel):
-    name : str
-    price : str 
-    year : str
-    mileage : str
-    engine_capacity : str
-    horse_powers : str
-    fuel_type : str
-    transmission : str
-    car_type : str
-    drive : str
-    color : str
 
 def get_db_connection():
     with open('config.txt', 'r') as config_file:

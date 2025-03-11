@@ -1,5 +1,3 @@
-import json
-
 import pandas as pd
 import uvicorn
 from fastapi import FastAPI, HTTPException
@@ -19,8 +17,6 @@ def root():
 def parse(url):
     try:
         data = parser.parse_3_pages(url)
-        # cars = [db.Car(**entry) for entry in data]
-        # db.save_to_db([car.model_dump() for car in cars])
         db.save_to_db(data)
 
         return {"message": "Parsed successfully", "url": url}
