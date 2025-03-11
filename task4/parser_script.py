@@ -25,7 +25,7 @@ def parse_page(driver, url):
         except:
             price_element = driver.find_element(By.CSS_SELECTOR, ".ListingItemPrice__link span")
             price = price_element.text
-        if (name and year and kmage and summary):
+        if name and year and kmage and summary:
             data.append({
                 'name' : name,
                 'price' : price,
